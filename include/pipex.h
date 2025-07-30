@@ -6,7 +6,7 @@
 /*   By: afahs <afahs@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/11 10:18:15 by afahs             #+#    #+#             */
-/*   Updated: 2025/07/30 16:39:53 by afahs            ###   ########.fr       */
+/*   Updated: 2025/07/30 17:53:00 by afahs            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,10 +29,10 @@ size_t	ft_strlen(const char *s);
 int		ft_strncmp(char *s1, char *s2, size_t n);
 char	*ft_strdup(const char *s1);
 
-char	*find_command_path(char *cmd, char **envp);
+char	*find_command_path(char *cmd, char **envp, int i);
 void	execute_command(char *cmd_str, char **envp);
 
-void	error_exit(char *message);
+void	error_exit(char *message, int i);
 void	cleanup_array(char **arr);
 
 int		open_file(char *filename, int flags, int mode);
