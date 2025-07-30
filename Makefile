@@ -6,7 +6,7 @@
 #    By: afahs <afahs@student.42.fr>                +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/07/22 12:53:50 by afahs             #+#    #+#              #
-#    Updated: 2025/07/30 16:39:26 by afahs            ###   ########.fr        #
+#    Updated: 2025/07/30 19:44:35 by afahs            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -20,6 +20,8 @@ SRCS = src/pipex.c \
 	   src/ft_split.c \
 	   src/utils.c \
 	   src/ft_string.c \
+	   src/processes.c \
+	   src/here_doc.c \
 
 Inculde = include
 
