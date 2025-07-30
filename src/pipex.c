@@ -26,8 +26,8 @@ void	child_process(char **argv, char **envp, int *pipe_fd)
 {
 	int	infile_fd;
 
-	infile_fd = open_file(argv[1], O_RDONLY, 0);
 	close(pipe_fd[0]);
+	infile_fd = open_file(argv[1], O_RDONLY, 0);
 	if (dup2(infile_fd, STDIN_FILENO) == -1)
 		error_exit("Failed to redirect input");
 	if (dup2(pipe_fd[1], STDOUT_FILENO) == -1)
@@ -41,8 +41,8 @@ void	parent_process(char **argv, char **envp, int *pipe_fd)
 {
 	int	outfile_fd;
 
-	outfile_fd = open_file(argv[4], O_WRONLY | O_CREAT | O_TRUNC, 0644);
 	close(pipe_fd[1]);
+	outfile_fd = open_file(argv[4], O_WRONLY | O_CREAT | O_TRUNC, 0644);
 	if (dup2(pipe_fd[0], STDIN_FILENO) == -1)
 		error_exit("Failed to redirect input");
 	if (dup2(outfile_fd, STDOUT_FILENO) == -1)
@@ -55,22 +55,26 @@ void	parent_process(char **argv, char **envp, int *pipe_fd)
 void	execute_pipex(char **argv, char **envp)
 {
 	int		pipe_fd[2];
-	pid_t	pid;
+	pid_t	pid1;
+	pid_t	pid2;
 	int		status;
 
 	if (pipe(pipe_fd) == -1)
 		error_exit("Failed to create pipe");
-	pid = fork();
-	if (pid == -1)
+	pid1 = fork();
+	if (pid1 == -1)
 		error_exit("Failed to fork process");
-	if (pid == 0)
+	if (pid1 == 0)
 		child_process(argv, envp, pipe_fd);
-	else
-	{
-		close(pipe_fd[1]);
-		waitpid(pid, &status, 0);
+	pid2 = fork();
+	if (pid2 == -1)
+		error_exit("Failed to fork process");
+	if (pid2 == 0)
 		parent_process(argv, envp, pipe_fd);
-	}
+	close(pipe_fd[0]);
+	close(pipe_fd[1]);
+	waitpid(pid1, &status, 0);
+	waitpid(pid2, &status, 0);
 }
 
 int	main(int argc, char **argv, char **envp)
