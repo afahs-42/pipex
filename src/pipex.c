@@ -121,15 +121,15 @@ void	execute_commands(int argc, char **argv, char **envp, int **pipes)
 		if (pids[i] == 0)
 		{
 			if (i == 0)
-				first_process(argv, envp, pipes, here_doc);
+				first_process(argv, envp, pipes, here_doc, cmd_count);
 			else if (i == cmd_count - 1)
-				last_process(argv, envp, pipes, i, here_doc, argc);
+				last_process(argv, envp, pipes, i, here_doc, argc, cmd_count);
 			else
-				middle_process(argv, envp, pipes, i, here_doc);
+				middle_process(argv, envp, pipes, i, here_doc, cmd_count);
 		}
 		i++;
 	}
-	cleanup_pipes(pipes, get_cmd_count(argc, here_doc));
+	cleanup_pipes(pipes, cmd_count);
 	i = 0;
 	while (i < cmd_count)
 		waitpid(pids[i++], &status, 0);

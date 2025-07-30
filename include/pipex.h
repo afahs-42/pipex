@@ -26,9 +26,9 @@ void	execute_commands(int argc, char **argv, char **envp, int **pipes);
 void	cleanup_pipes(int **pipes, int cmd_count);
 
 /* Process functions */
-void	first_process(char **argv, char **envp, int **pipes, int here_doc);
-void	middle_process(char **argv, char **envp, int **pipes, int cmd_index, int here_doc);
-void	last_process(char **argv, char **envp, int **pipes, int cmd_index, int here_doc, int argc);
+void	first_process(char **argv, char **envp, int **pipes, int here_doc, int cmd_count);
+void	middle_process(char **argv, char **envp, int **pipes, int cmd_index, int here_doc, int cmd_count);
+void	last_process(char **argv, char **envp, int **pipes, int cmd_index, int here_doc, int argc, int cmd_count);
 
 /* Here_doc functions */
 int		create_here_doc(char *limiter);

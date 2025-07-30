@@ -25,13 +25,11 @@ void	close_all_pipes(int **pipes, int cmd_count)
 	}
 }
 
-void	first_process(char **argv, char **envp, int **pipes, int here_doc)
+void	first_process(char **argv, char **envp, int **pipes, int here_doc, int cmd_count)
 {
 	int	infile_fd;
 	int	cmd_arg_index;
-	int	cmd_count;
 
-	cmd_count = get_cmd_count(0, here_doc);
 	if (here_doc)
 	{
 		infile_fd = create_here_doc(argv[2]);
@@ -51,12 +49,10 @@ void	first_process(char **argv, char **envp, int **pipes, int here_doc)
 	execute_command(argv[cmd_arg_index], envp);
 }
 
-void	middle_process(char **argv, char **envp, int **pipes, int cmd_index, int here_doc)
+void	middle_process(char **argv, char **envp, int **pipes, int cmd_index, int here_doc, int cmd_count)
 {
 	int	cmd_arg_index;
-	int	cmd_count;
 
-	cmd_count = get_cmd_count(0, here_doc);
 	cmd_arg_index = get_cmd_arg_index(cmd_index, here_doc);
 	if (dup2(pipes[cmd_index - 1][0], STDIN_FILENO) == -1)
 		error_exit("Failed to redirect input", 1);
@@ -66,14 +62,12 @@ void	middle_process(char **argv, char **envp, int **pipes, int cmd_index, int he
 	execute_command(argv[cmd_arg_index], envp);
 }
 
-void	last_process(char **argv, char **envp, int **pipes, int cmd_index, int here_doc, int argc)
+void	last_process(char **argv, char **envp, int **pipes, int cmd_index, int here_doc, int argc, int cmd_count)
 {
 	int	outfile_fd;
 	int	cmd_arg_index;
 	int	flags;
-	int	cmd_count;
 
-	cmd_count = get_cmd_count(argc, here_doc);
 	cmd_arg_index = get_cmd_arg_index(cmd_index, here_doc);
 	if (here_doc)
 		flags = O_WRONLY | O_CREAT | O_APPEND;
