@@ -6,46 +6,11 @@
 /*   By: afahs <afahs@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/11 10:18:07 by afahs             #+#    #+#             */
-/*   Updated: 2025/07/11 10:18:08 by afahs            ###   ########.fr       */
+/*   Updated: 2025/07/30 16:31:54 by afahs            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "pipex.h"
-
-void	validate_args(int argc, char **argv)
-{
-    if (argc != 5)
-    {
-        write(2, "Usage: ./pipex file1 cmd1 cmd2 file2\n", 36);
-        exit(EXIT_FAILURE);
-    }
-    if (!argv[1] || !argv[1][0])
-        error_exit("Error: Input file is missing\n");
-    if (!argv[2] || !argv[2][0])
-        error_exit("Error: Command 1 is missing\n");
-    if (!argv[3] || !argv[3][0])
-        error_exit("Error: Command 2 is missing\n");
-    if (!argv[4] || !argv[4][0])
-        error_exit("Error: Output file is missing\n");
-    validate_file_access(argv[1], argv[4]);
-}
-
-void validate_file_access(char *input_file, char *output_file)
-{
-	char *last_slash;
-    if (access(input_file, F_OK) != 0)
-        perror("Error accessing input file");
-	else if (access(input_file, R_OK) != 0)
-		perror("Error reading input file");
-	last_slash = ft_strrchr(output_file, '/');
-	if (last_slash)
-	{
-		*last_slash = '\0';
-		if (access(output_file, W_OK) != 0)
-			write(2, "Error: Cannot write to output file\n", 35);
-		*last_slash = '/';
-	}
-}
 
 void	validate_arguments(int argc, char **argv)
 {
